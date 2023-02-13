@@ -1,0 +1,17 @@
+#tab-container{
+	padding: 15px 0px;
+}
+
+.header{
+	color: white;
+	background-color: #40474a;
+	padding: 10px;
+}
+
+#game-tab-container{
+	margin: 10px 0;
+}
+
+#dog-tab-container{
+	margin: 10px 0;
+}
