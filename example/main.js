@@ -28,11 +28,14 @@ function createDogsTabs(){
   let borderCollie = dog("Border Collie", "The head is like that of a collie, and the body is slightly longer than the dog is tall. The ears stand but the tips drop over, giving them a jaunty appearance. Some border collies have a coarse coat about three inches long, while others have a sleek coat about one inch long.");
   skylitTabs.createTabContainer("Border Collie",borderCollie);
 
-  scottishDeerhound = dog("Scottish Deerhound", "The Scottish deerhound is best described as a large greyhound cloaked in a wiry coat. The breed has the typical greyhound family traits of long, slender legs, relatively narrow body, deep chest, tucked abdomen, arched loin and long tail.");
+  scottishDeerhound = dog("Scottish Deerhound ", "The Scottish deerhound is best described as a large greyhound cloaked in a wiry coat. The breed has the typical greyhound family traits of long, slender legs, relatively narrow body, deep chest, tucked abdomen, arched loin and long tail.");
   skylitTabs.createTabContainer("Scottish Deerhound",scottishDeerhound);
 
-  borderCollie = dog("Border Collie", "The head is like that of a collie, and the body is slightly longer than the dog is tall. The ears stand but the tips drop over, giving them a jaunty appearance. Some border collies have a coarse coat about three inches long, while others have a sleek coat about one inch long.");
-  skylitTabs.createTabContainer("Border Collie",borderCollie);
+  Australian = dog("Australian Shepherd", "Australian shepherds are about 18 to 23 inches in height, and weigh from about 40 to 60 pounds (18 to 27 kilograms). Males generally are taller and heavier than females. Aussies live about 10 to 12 years.");
+  skylitTabs.createTabContainer("Australian Shepherd",Australian);
+
+  Basenji = dog("Basenji", "Basenji are small, graceful hounds standing 16 or 17 inches at the shoulder. They are recognizable by their glistening short coat");
+  skylitTabs.createTabContainer("Basenji",Basenji);
 
 }
 

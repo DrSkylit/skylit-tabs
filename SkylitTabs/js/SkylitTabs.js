@@ -1,17 +1,23 @@
 class SkylitTabs{
 	constructor(){
+		this.startingTab = 0;
 		this.tabCount = 0;
+		this.maxTabNameLength = 25;
 		this.mainClass = "skylit-tab-container";
 		this.mainContainer = this.createContainer();
 		this.skylitTabHolder = this.createTabHolder();
 	}
 
 	createTabContainer(tabName,element){
+		if(tabName.length >this.maxTabNameLength){
+			throw new Error("Tab names can only be " + this.maxTabNameLength + " characters long, This is so tab names dont get to big. To override this please call setmaxTabNameLength()");
+		}
+
 		this.skylitTabHolder.createTab(tabName,this.tabCount);
 
 		let div = document.createElement("div");
 		div.setAttribute("id","skylit-tab-content-" + this.tabCount);
-		if(this.tabCount == 0){
+		if(this.tabCount == this.startingTab){
 			div.classList.add("skylit-tab-show");
 		}else{
 			div.classList.add("skylit-tab-hide");
@@ -58,5 +64,9 @@ class SkylitTabs{
 
 	addIdToTabHolder(idName){
 		this.skylitTabHolder.addId(idName);
+	}
+
+	setmaxTabNameLength(length){
+		this.maxTabNameLength = length;
 	}
 };

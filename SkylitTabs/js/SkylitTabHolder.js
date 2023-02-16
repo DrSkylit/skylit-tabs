@@ -4,18 +4,23 @@ class SkylitTabHolder{
 		this.tabClass = "skylit-tab";
 		this.holder;
 		this.parent = parent;
+		this.uniqueTabId;
 	}
 	createTabHolder(){
 		this.holder = document.createElement("div");
 		this.holder.classList.add(this.mainClass);
 	}
 
-	createTab(tabName,tabAmt){
+	createTab(tabName,tabAmt,initialTab){
 		// get a unique number to add to the radio id 
 		// this will allow the label to work properly 
 		// if more then 1 SkylitTab is created
-		let uniqueRadioId = this.getUniqueTabId(tabAmt);
-		let RadioId = "skylit-tab-" + tabAmt + "-" + uniqueRadioId;
+		if(this.uniqueRadioId == null){
+			// we only need to grab a Unique tab id for the
+			// first tab, The rest wiill use that same id
+			this.uniqueRadioId = this.getUniqueTabId(tabAmt);
+		}
+		let RadioId = "skylit-tab-" + tabAmt + "-" + this.uniqueRadioId;
 		// grab the children of the top most parent
 		let parentsChildren = this.parent.childNodes;
 
@@ -26,7 +31,7 @@ class SkylitTabHolder{
 		radio.setAttribute("type", "radio");
 		radio.setAttribute("hidden",true);
 		radio.classList.add("skylit-radio");
-		radio.setAttribute("name","skylit-tab" + "-" + uniqueRadioId);
+		radio.setAttribute("name","skylit-tab" + "-" + this.uniqueRadioId);
 		radio.setAttribute("id",RadioId);
 		if(tabAmt == 0){
 			radio.setAttribute("checked", true);
