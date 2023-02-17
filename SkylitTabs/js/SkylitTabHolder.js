@@ -5,22 +5,30 @@ class SkylitTabHolder{
 		this.holder;
 		this.parent = parent;
 		this.uniqueTabId;
+		this.slideBtnRight;
+		this.slideBtnLeft;
+		this.slideDecoyRight;
+		this.slideDecoyLeft;
 	}
 	createTabHolder(){
+		let self = this;
 		this.holder = document.createElement("div");
 		this.holder.classList.add(this.mainClass);
+		window.addEventListener("resize",function(evt){
+  			self.updateOverflow()
+		});
 	}
 
-	createTab(tabName,tabAmt,initialTab){
+	createTab(tabName,tabNum,isStarting){
 		// get a unique number to add to the radio id 
 		// this will allow the label to work properly 
 		// if more then 1 SkylitTab is created
 		if(this.uniqueRadioId == null){
 			// we only need to grab a Unique tab id for the
 			// first tab, The rest wiill use that same id
-			this.uniqueRadioId = this.getUniqueTabId(tabAmt);
+			this.uniqueRadioId = this.getUniqueTabId(tabNum);
 		}
-		let RadioId = "skylit-tab-" + tabAmt + "-" + this.uniqueRadioId;
+		let RadioId = "skylit-tab-" + tabNum + "-" + this.uniqueRadioId;
 		// grab the children of the top most parent
 		let parentsChildren = this.parent.childNodes;
 
@@ -33,7 +41,8 @@ class SkylitTabHolder{
 		radio.classList.add("skylit-radio");
 		radio.setAttribute("name","skylit-tab" + "-" + this.uniqueRadioId);
 		radio.setAttribute("id",RadioId);
-		if(tabAmt == 0){
+
+		if(isStarting){
 			radio.setAttribute("checked", true);
 		}
 
@@ -67,12 +76,58 @@ class SkylitTabHolder{
 		tabCtn.append(radio);
 		tabCtn.append(label);
 
-		this.holder.append(tabCtn)
+		this.holder.append(tabCtn);
 	}
 
-	getUniqueTabId(tabAmt){
+	createLeftSlideButtton(){
+		let self = this;
+		this.slideBtnLeft = this.createSlideButton("slide-left","<");
+		this.slideDecoyLeft = this.createSlideDecoy("slide-decoy",">")
+		this.slideBtnLeft.addEventListener("click",function(evt){
+			self.holder.scrollLeft -= 30;
+		})
+
+		this.holder.append(this.slideBtnLeft);
+		this.holder.append(this.slideDecoyLeft);
+	}
+
+	createRightSlideButtton(){
+		let self = this;
+		this.slideBtnRight = this.createSlideButton("slide-right",">");
+		this.slideDecoyRight = this.createSlideDecoy("slide-decoy",">")
+		this.slideBtnRight.addEventListener("click",function(evt){
+			self.holder.scrollLeft += 30;
+		})
+		this.holder.prepend(this.slideBtnRight);
+		this.holder.prepend(this.slideDecoyRight);
+	}
+
+	createSlideButton(id,direction){
+		let slideButton = document.createElement("button");
+		slideButton.textContent = direction;
+		slideButton.setAttribute("id",id);
+		slideButton.setAttribute("hidden",true);
+		slideButton.style.height = this.holder.offsetHeight + "px";
+
+		return slideButton;
+	}
+
+	createSlideDecoy(className,direction){
+		/*
+			We create a slide decoy button that matches the exact specs of the fixed button 
+			This way the width of the holder will update as if the fixed buttons are not fixed
+		*/
+		let slideDecoy = document.createElement("button");
+		slideDecoy.textContent = direction;
+		slideDecoy.classList.add(className);
+		slideDecoy.setAttribute("hidden",true);
+
+		return slideDecoy;
+	}
+
+	getUniqueTabId(tabNum){
 		let uniqueTabId = 100;
-		while(document.getElementById("skylit-tab-" + tabAmt + "-" + uniqueTabId)){
+		while(document.getElementById("skylit-tab-" + tabNum + "-" + uniqueTabId)){
 			uniqueTabId++;
 		}
 		return uniqueTabId;
@@ -94,5 +149,24 @@ class SkylitTabHolder{
 
 	getContainer(){
 		return this.holder;
+	}
+
+	updateOverflow(){
+		if(this.isOverflown(this.holder)){
+			this.slideBtnRight.removeAttribute("hidden")
+			this.slideBtnLeft.removeAttribute("hidden")
+
+			this.slideDecoyRight.removeAttribute("hidden")
+			this.slideDecoyLeft.removeAttribute("hidden")
+		}else{
+			this.slideBtnRight.setAttribute("hidden",true);
+			this.slideBtnLeft.setAttribute("hidden",true);
+			this.slideDecoyRight.setAttribute("hidden",true);
+			this.slideDecoyLeft.setAttribute("hidden",true);
+		}
+	}
+
+	isOverflown(element) {
+  		return element.scrollHeight > element.clientHeight || element.scrollWidth > element.clientWidth;
 	}
 }

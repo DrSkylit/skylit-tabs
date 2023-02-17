@@ -7,6 +7,18 @@
 	display: block;
 	width: inherit;
 	border-bottom: 1px solid black;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+#slide-left{
+	position: absolute;
+	left: 8px;
+}
+
+#slide-right{
+	position: absolute;
+	right: 8px;
 }
 
 .skylit-tab{
