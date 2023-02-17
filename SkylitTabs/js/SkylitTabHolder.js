@@ -14,6 +14,7 @@ class SkylitTabHolder{
 		let self = this;
 		this.holder = document.createElement("div");
 		this.holder.classList.add(this.mainClass);
+		// checks for an overflow and updates UI whenever the screen resizes so the tabs will always look amazing 
 		window.addEventListener("resize",function(evt){
   			self.updateOverflow()
 		});
@@ -151,6 +152,11 @@ class SkylitTabHolder{
 		return this.holder;
 	}
 
+	/*
+		Checks the tab holder for any otherflow (small screen or lots of tabs on holder), 
+		if overflow is detected two scroll buttons will appear so the user can horizontally
+		go though the created tabs.   
+	*/
 	updateOverflow(){
 		if(this.isOverflown(this.holder)){
 			this.slideBtnRight.removeAttribute("hidden")
