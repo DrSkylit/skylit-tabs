@@ -1,34 +1,48 @@
 class SkylitTabs{
 	constructor(){
-		this.startingTab = 0;
-		this.tabCount = 0;
+		this.tabData = [];
+		this.startingTab = "";
 		this.maxTabNameLength = 25;
 		this.mainClass = "skylit-tab-container";
 		this.mainContainer = this.createContainer();
 		this.skylitTabHolder = this.createTabHolder();
 	}
 
-	createTabContainer(tabName,element){
+	addTab(tabName,element){
 		if(tabName.length >this.maxTabNameLength){
 			throw new Error("Tab names can only be " + this.maxTabNameLength + " characters long, This is so tab names dont get to big. To override this please call setmaxTabNameLength()");
 		}
+		this.tabData.push({
+			"name": tabName,
+			"element": element,
+		});
+	}
 
-		this.skylitTabHolder.createTab(tabName,this.tabCount);
-
-		let div = document.createElement("div");
-		div.setAttribute("id","skylit-tab-content-" + this.tabCount);
-		if(this.tabCount == this.startingTab){
-			div.classList.add("skylit-tab-show");
-		}else{
-			div.classList.add("skylit-tab-hide");
+	buildSkylitTabs(){
+		// check for tab name if starting tab is set
+		this.startingTabCheck()
+		for(let i=0; i < this.tabData.length; i++){
+			let tabName = this.tabData[i].name;
+			let element = this.tabData[i].element;
+			let div = document.createElement("div");
+			div.setAttribute("id","skylit-tab-content-" + i);
+			if(this.isStartingTab(tabName)){
+				this.skylitTabHolder.createTab(tabName,i,true);
+				div.classList.add("skylit-tab-show");
+			}else{
+				this.skylitTabHolder.createTab(tabName,i,false);
+				div.classList.add("skylit-tab-hide");
+			}
+			div.classList.add("skylit-tab-content");
+			if(!element){
+				throw new Error("No HTML Elements Given To Function createTabContainer.");
+			}
+			div.append(element);
+			this.mainContainer.append(div)
 		}
-		div.classList.add("skylit-tab-content");
-		if(!element){
-			throw new Error("No HTML Elements Given To Function createTabContainer.");
-		}
-		div.append(element);
-		this.mainContainer.append(div)
-		this.tabCount++;
+		this.skylitTabHolder.createLeftSlideButtton();
+		this.skylitTabHolder.createRightSlideButtton();
+		this.skylitTabHolder.updateOverflow();
 	}
 
 	createContainer(){
@@ -66,7 +80,34 @@ class SkylitTabs{
 		this.skylitTabHolder.addId(idName);
 	}
 
+	startingTabCheck(){
+		if(this.startingTab){
+			let self = this
+			let exists = false;
+			exists = this.tabData.find(function(el){
+				return el.name == self.startingTab;
+			});
+			if(!exists){
+				throw new Error(this.startingTab + " Does not match any tabs names");
+			}
+		}else{
+			this.startingTab = this.tabData[0]["name"];
+		}
+	}
+
+	isStartingTab(name){
+		if(this.startingTab === name){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 	setmaxTabNameLength(length){
 		this.maxTabNameLength = length;
+	}
+
+	setStartingTab(tabName){
+		this.startingTab = tabName;
 	}
 };
