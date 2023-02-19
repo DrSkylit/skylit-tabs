@@ -1,6 +1,7 @@
 .skylit-tab-container{
 	width:100%;
 	min-height: 200px;
+	position: relative;
 }
 
 .skylit-tab-holder{
@@ -11,14 +12,18 @@
 	overflow: hidden;
 }
 
-#slide-left{
-	position: absolute;
-	left: 8px;
+.skylit-slide-btn{
+	border-radius: 0px;
 }
 
-#slide-right{
+#skylit-slide-left{
 	position: absolute;
-	right: 8px;
+	left: 0px;
+}
+
+#skylit-slide-right{
+	position: absolute;
+	right: 0px;
 }
 
 .skylit-tab{
