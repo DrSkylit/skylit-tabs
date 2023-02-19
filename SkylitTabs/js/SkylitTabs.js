@@ -1,9 +1,9 @@
 class SkylitTabs{
 	constructor(){
+		this.mainClass = "skylit-tab-container";
+		this.maxTabNameLength = 25;
 		this.tabData = [];
 		this.startingTab = "";
-		this.maxTabNameLength = 25;
-		this.mainClass = "skylit-tab-container";
 		this.mainContainer = this.createContainer();
 		this.skylitTabHolder = this.createTabHolder();
 	}
@@ -40,6 +40,7 @@ class SkylitTabs{
 			div.append(element);
 			this.mainContainer.append(div)
 		}
+
 		this.skylitTabHolder.createLeftSlideButtton();
 		this.skylitTabHolder.createRightSlideButtton();
 		this.skylitTabHolder.updateOverflow();
@@ -103,11 +104,19 @@ class SkylitTabs{
 		}
 	}
 
+	/*
+		Getters and Setters
+	*/ 
+
 	setmaxTabNameLength(length){
 		this.maxTabNameLength = length;
 	}
 
 	setStartingTab(tabName){
 		this.startingTab = tabName;
+	}
+
+	setScrollSpeed(speed){
+		this.skylitTabHolder.setScrollSpeed(speed);
 	}
 };

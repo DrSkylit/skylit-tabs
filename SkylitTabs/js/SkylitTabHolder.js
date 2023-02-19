@@ -1,23 +1,23 @@
 class SkylitTabHolder{
 	constructor(parent){
+		this.parent = parent;
 		this.mainClass = "skylit-tab-holder";
 		this.tabClass = "skylit-tab";
 		this.holder;
-		this.parent = parent;
 		this.uniqueTabId;
 		this.slideBtnRight;
 		this.slideBtnLeft;
 		this.slideDecoyRight;
 		this.slideDecoyLeft;
+		this.scrollSpeed = 50;
+		this.maxScrollSpeed = 200;
+		this.minScrollSpeed = 1;
 	}
 	createTabHolder(){
-		let self = this;
 		this.holder = document.createElement("div");
 		this.holder.classList.add(this.mainClass);
 		// checks for an overflow and updates UI whenever the screen resizes so the tabs will always look amazing 
-		window.addEventListener("resize",function(evt){
-  			self.updateOverflow()
-		});
+		this.createResizeEvent();
 	}
 
 	createTab(tabName,tabNum,isStarting){
@@ -82,11 +82,14 @@ class SkylitTabHolder{
 
 	createLeftSlideButtton(){
 		let self = this;
-		this.slideBtnLeft = this.createSlideButton("slide-left","<");
-		this.slideDecoyLeft = this.createSlideDecoy("slide-decoy",">")
+		this.slideBtnLeft = this.createSlideButton("skylit-slide-left","<");
+		this.slideDecoyLeft = this.createSlideDecoy("skylit-slide-decoy",">")
 		this.slideBtnLeft.addEventListener("click",function(evt){
-			self.holder.scrollLeft -= 30;
-		})
+			self.holder.scrollBy({
+  				left: -self.scrollSpeed,
+  				behavior: 'smooth'
+			});
+		});
 
 		this.holder.append(this.slideBtnLeft);
 		this.holder.append(this.slideDecoyLeft);
@@ -94,11 +97,15 @@ class SkylitTabHolder{
 
 	createRightSlideButtton(){
 		let self = this;
-		this.slideBtnRight = this.createSlideButton("slide-right",">");
-		this.slideDecoyRight = this.createSlideDecoy("slide-decoy",">")
+		this.slideBtnRight = this.createSlideButton("skylit-slide-right",">");
+		this.slideDecoyRight = this.createSlideDecoy("skylit-slide-decoy",">")
 		this.slideBtnRight.addEventListener("click",function(evt){
-			self.holder.scrollLeft += 30;
-		})
+			self.holder.scrollBy({
+  				left: self.scrollSpeed,
+  				behavior: 'smooth'
+			});
+		});
+		
 		this.holder.prepend(this.slideBtnRight);
 		this.holder.prepend(this.slideDecoyRight);
 	}
@@ -106,10 +113,15 @@ class SkylitTabHolder{
 	createSlideButton(id,direction){
 		let slideButton = document.createElement("button");
 		slideButton.textContent = direction;
+		slideButton.classList.add("skylit-slide-btn");
 		slideButton.setAttribute("id",id);
 		slideButton.setAttribute("hidden",true);
-		slideButton.style.height = this.holder.offsetHeight + "px";
-
+		/*
+			since these buttons have a position of absolute we need to 
+			figure out the height of their parent on the fly and update
+			them accordingly	
+		*/
+		slideButton.style.height = this.holder.offsetHeight + "px";	
 		return slideButton;
 	}
 
@@ -124,6 +136,13 @@ class SkylitTabHolder{
 		slideDecoy.setAttribute("hidden",true);
 
 		return slideDecoy;
+	}
+
+	createResizeEvent(){
+		let self = this;
+		window.addEventListener("resize",function(evt){
+  			self.updateOverflow()
+		});
 	}
 
 	getUniqueTabId(tabNum){
@@ -147,11 +166,6 @@ class SkylitTabHolder{
 		}
 		this.holder.setAttribute('id',id)
 	}
-
-	getContainer(){
-		return this.holder;
-	}
-
 	/*
 		Checks the tab holder for any otherflow (small screen or lots of tabs on holder), 
 		if overflow is detected two scroll buttons will appear so the user can horizontally
@@ -174,5 +188,23 @@ class SkylitTabHolder{
 
 	isOverflown(element) {
   		return element.scrollHeight > element.clientHeight || element.scrollWidth > element.clientWidth;
+	}
+
+	/*
+		Getters and Setters
+	*/ 
+
+	getContainer(){
+		return this.holder;
+	}
+
+	setScrollSpeed(speed){
+		if(speed >= this.minScrollSpeed && speed <= this.maxScrollSpeed){
+			this.scrollSpeed = speed;
+		}else if(speed > this.maxScrollSpeed){
+			throw new Error("scroll speed cannot be more then "+this.maxScrollSpeed+". please set it between "+this.minScrollSpeed+" and "+this.maxScrollSpeed);	
+		}else{
+			throw new Error("scroll speed cannot be 0 or less. please set it between "+this.minScrollSpeed+" and "+this.maxScrollSpeed);
+		}
 	}
 }
