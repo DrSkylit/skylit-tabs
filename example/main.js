@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded',function(){
 
   createGamesTabs();
   createDogsTabs();
-  createConsoleTabs()
+  createConsoleTabs();
 
 }, false);
 

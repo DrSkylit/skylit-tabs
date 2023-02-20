@@ -59,8 +59,8 @@ class SkylitTabs{
 		return skylitTabHolder;
 	}
 
-	appendTo(element){
-		let userContainer = document.getElementById(element);
+	appendTo(id){
+		let userContainer = document.getElementById(id);
 		userContainer.append(this.mainContainer)
 	}
 
