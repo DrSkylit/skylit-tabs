@@ -79,7 +79,7 @@ function dog(name,desc){
 }
 ```
 5. This is the base example and will be a good start in using SkylitTabs   
-![Dog Breed Tabs](https://github.com/DrSkylit/skylit-tabs/tree/main/example/screenshots/DogBreedTabs.png)
+![Dog Breed Tabs](https://github.com/DrSkylit/skylit-tabs/blob/create-docs/example/screenshots/DogBreedTabs.png)
 
 ### Public Functions  
 | Name | Description | Params |
