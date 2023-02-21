@@ -1,6 +1,9 @@
 # Skylit Tabs  
 *This is a work in progress*   
 *hopefully I will have a stable release soon!*
+
+[**Try Skylit Tabs Demo →**](https://drskylit.github.io/skylit-tabs/)
+
 ## Table of Contents
 1. [Description](#Description)
 2. [How To Use](#How-To-Use)
