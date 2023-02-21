@@ -1,0 +1,60 @@
+.skylit-tab-container{
+	width:100%;
+	min-height: 200px;
+	position: relative;
+}
+
+.skylit-tab-holder{
+	display: block;
+	width: inherit;
+	border-bottom: 1px solid black;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.skylit-slide-btn{
+	border-radius: 0px;
+}
+
+#skylit-slide-left{
+	position: absolute;
+	left: 0px;
+}
+
+#skylit-slide-right{
+	position: absolute;
+	right: 0px;
+}
+
+.skylit-tab{
+	display: inline-block;
+}
+
+.skylit-tab-label{
+	padding:11px 10px;
+	text-align: center;
+	border-right: 1px solid black;
+	background: #1e81b0;
+	cursor: pointer;
+	color: white;
+	display: inline-block;
+	-webkit-user-select: none; /* Safari */
+  	-ms-user-select: none; /* IE 10 and IE 11 */
+ 	 user-select: none; /* Standard syntax */
+}
+.skylit-radio:checked + .skylit-tab-label{
+	background: #40474a;
+}
+
+.skylit-tab-label:hover{
+	background: #40474a;
+}
+
+.skylit-tab-content{
+	width: 100%;
+	min-height: 200px;
+}
+
+.skylit-tab-hide{
+	display: none;
+}
