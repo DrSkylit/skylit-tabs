@@ -10,24 +10,44 @@
 	border-bottom: 1px solid black;
 	white-space: nowrap;
 	overflow: hidden;
+	height: 40px;
 }
 
 .skylit-slide-btn{
+	height: 100%;
 	border-radius: 0px;
+    padding: 0 5px;
+    border-width: 1px;
+    vertical-align: top;
+    display: inline-block;
+    background: white;
+	opacity: .8;
 }
 
 #skylit-slide-left{
-	position: absolute;
+	position: sticky;
 	left: 0px;
 }
 
 #skylit-slide-right{
-	position: absolute;
-	right: 0px;
+	position: sticky;
+	right: -1px;
+}
+
+.skylit-arrow-ctn{
+	width: 100%;
+	height: 100%;
+	font-weight: 900;
+	-webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
 }
 
 .skylit-tab{
 	display: inline-block;
+	height: 100%;
 }
 
 .skylit-tab-label{
@@ -38,6 +58,7 @@
 	cursor: pointer;
 	color: white;
 	display: inline-block;
+	height: 100%;
 	-webkit-user-select: none; /* Safari */
   	-ms-user-select: none; /* IE 10 and IE 11 */
  	 user-select: none; /* Standard syntax */
@@ -55,6 +76,10 @@
 	min-height: 200px;
 }
 
-.skylit-tab-hide{
+.skylit-hidden{
 	display: none;
+}
+
+.skylit-show{
+	display: block;
 }
