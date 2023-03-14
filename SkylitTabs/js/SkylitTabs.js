@@ -28,10 +28,10 @@ class SkylitTabs{
 			div.setAttribute("id","skylit-tab-content-" + i);
 			if(this.isStartingTab(tabName)){
 				this.skylitTabHolder.createTab(tabName,i,true);
-				div.classList.add("skylit-tab-show");
+				div.classList.add("skylit-show");
 			}else{
 				this.skylitTabHolder.createTab(tabName,i,false);
-				div.classList.add("skylit-tab-hide");
+				div.classList.add("skylit-hidden");
 			}
 			div.classList.add("skylit-tab-content");
 			if(!element){

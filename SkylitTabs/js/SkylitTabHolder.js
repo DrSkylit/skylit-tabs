@@ -7,10 +7,8 @@ class SkylitTabHolder{
 		this.uniqueTabId;
 		this.slideBtnRight;
 		this.slideBtnLeft;
-		this.slideDecoyRight;
-		this.slideDecoyLeft;
 		this.scrollSpeed = 50;
-		this.maxScrollSpeed = 200;
+		this.maxScrollSpeed = 250;
 		this.minScrollSpeed = 1;
 	}
 	createTabHolder(){
@@ -56,19 +54,18 @@ class SkylitTabHolder{
 					// if its class contains the skylit-tab-content we want to hide it
 					// this will hide all tabs
 					if(hasClass){
-						element.classList.replace("skylit-tab-show", "skylit-tab-hide");
+						element.classList.replace("skylit-show", "skylit-hidden");
 						let splitId = self.id.split("-");
 						let splitElement = element.id.split("-");
 						// if the radio id end number and element id end number are the same
 						// we can show that tab 
 						if(splitId[2] == splitElement[3]){
-							element.classList.replace("skylit-tab-hide", "skylit-tab-show");
+							element.classList.replace("skylit-hidden", "skylit-show");
 						}
 					}
 				});
 			}
 		});
-
 		let label = document.createElement("label");
 		label.setAttribute("for",RadioId);
 		label.classList.add("skylit-tab-label");
@@ -76,14 +73,23 @@ class SkylitTabHolder{
 
 		tabCtn.append(radio);
 		tabCtn.append(label);
-
 		this.holder.append(tabCtn);
+		/*
+			if the height of the tab holder is changed this will make sure that the tab label
+			will always be centered
+
+		*/
+		let paddingTop = getComputedStyle(label).getPropertyValue('padding-top');
+		let paddingBotttom = getComputedStyle(label).getPropertyValue('padding-bottom');
+		// we need to remove the px and convert to an int 
+		paddingTop = parseInt(paddingTop.substring(0, paddingTop.length-2));
+		paddingBotttom = parseInt(paddingBotttom.substring(0, paddingBotttom.length-2));
+		label.setAttribute("style","line-height:" + (this.holder.clientHeight-(paddingTop+paddingBotttom)) + "px");
 	}
 
 	createLeftSlideButtton(){
 		let self = this;
 		this.slideBtnLeft = this.createSlideButton("skylit-slide-left","<");
-		this.slideDecoyLeft = this.createSlideDecoy("skylit-slide-decoy",">")
 		this.slideBtnLeft.addEventListener("click",function(evt){
 			self.holder.scrollBy({
   				left: -self.scrollSpeed,
@@ -91,14 +97,12 @@ class SkylitTabHolder{
 			});
 		});
 
-		this.holder.append(this.slideBtnLeft);
-		this.holder.append(this.slideDecoyLeft);
+		this.holder.prepend(this.slideBtnLeft);
 	}
 
 	createRightSlideButtton(){
 		let self = this;
 		this.slideBtnRight = this.createSlideButton("skylit-slide-right",">");
-		this.slideDecoyRight = this.createSlideDecoy("skylit-slide-decoy",">")
 		this.slideBtnRight.addEventListener("click",function(evt){
 			self.holder.scrollBy({
   				left: self.scrollSpeed,
@@ -106,36 +110,30 @@ class SkylitTabHolder{
 			});
 		});
 		
-		this.holder.prepend(this.slideBtnRight);
-		this.holder.prepend(this.slideDecoyRight);
+		this.holder.append(this.slideBtnRight);
 	}
 
 	createSlideButton(id,direction){
-		let slideButton = document.createElement("button");
-		slideButton.textContent = direction;
+		let slideButton = document.createElement("div");
 		slideButton.classList.add("skylit-slide-btn");
 		slideButton.setAttribute("id",id);
 		slideButton.setAttribute("hidden",true);
+
+		let arrowCtn = document.createElement("div");
+		arrowCtn.classList.add("skylit-arrow-ctn");
+		let arrow = document.createElement("span");
+		arrow.textContent = direction;
+		arrowCtn.append(arrow)
+
+		slideButton.append(arrowCtn)
+
 		/*
 			since these buttons have a position of absolute we need to 
 			figure out the height of their parent on the fly and update
 			them accordingly	
 		*/
-		slideButton.style.height = this.holder.offsetHeight + "px";	
+		slideButton.setAttribute("style","line-height:" + (this.holder.clientHeight) + "px");
 		return slideButton;
-	}
-
-	createSlideDecoy(className,direction){
-		/*
-			We create a slide decoy button that matches the exact specs of the fixed button 
-			This way the width of the holder will update as if the fixed buttons are not fixed
-		*/
-		let slideDecoy = document.createElement("button");
-		slideDecoy.textContent = direction;
-		slideDecoy.classList.add(className);
-		slideDecoy.setAttribute("hidden",true);
-
-		return slideDecoy;
 	}
 
 	createResizeEvent(){
@@ -172,22 +170,17 @@ class SkylitTabHolder{
 		go though the created tabs.   
 	*/
 	updateOverflow(){
-		if(this.isOverflown(this.holder)){
-			this.slideBtnRight.removeAttribute("hidden")
-			this.slideBtnLeft.removeAttribute("hidden")
-
-			this.slideDecoyRight.removeAttribute("hidden")
-			this.slideDecoyLeft.removeAttribute("hidden")
+		if(this.isOverflow(this.holder)){
+			this.slideBtnRight.classList.remove("skylit-hidden");
+			this.slideBtnLeft.classList.remove("skylit-hidden");
 		}else{
-			this.slideBtnRight.setAttribute("hidden",true);
-			this.slideBtnLeft.setAttribute("hidden",true);
-			this.slideDecoyRight.setAttribute("hidden",true);
-			this.slideDecoyLeft.setAttribute("hidden",true);
+			this.slideBtnRight.classList.add("skylit-hidden");
+			this.slideBtnLeft.classList.add("skylit-hidden");
 		}
 	}
 
-	isOverflown(element) {
-  		return element.scrollHeight > element.clientHeight || element.scrollWidth > element.clientWidth;
+	isOverflow(element) {
+  		return element.scrollWidth > element.clientWidth;
 	}
 
 	/*
