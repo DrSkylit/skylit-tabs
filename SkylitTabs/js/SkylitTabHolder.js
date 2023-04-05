@@ -1,3 +1,11 @@
+/*!
+ * skylit-tabs
+ *
+ * Copyright © 2023 Christopher Dolce 
+ * Apache license 
+ * https://github.com/DrSkylit/skylit-tabs
+ */
+
 class SkylitTabHolder{
 	constructor(parent){
 		this.parent = parent;
